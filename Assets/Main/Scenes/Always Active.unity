@@ -256,7 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetFPS: 60
-  speed: 10
 --- !u!50 &238285993
 Rigidbody2D:
   serializedVersion: 4

@@ -6,15 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
-using System.Runtime.Versioning;
 
 
 public class Player : MonoBehaviour
 {
     [SerializeField] int targetFPS;
     Camera cam;
-    [SerializeField] float speed = 10f;
 
     void Start()
     {
@@ -26,10 +23,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         FollowMousePosition();
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-            Debug.Log("x: " + (int)Input.mousePosition.x + " y: " + (int)Input.mousePosition.y);
-        if (Input.GetKeyDown(KeyCode.Space))
-            Debug.Log("x: " + transform.position.x + " y: " + transform.position.y);
+        //if (Input.GetKeyDown(KeyCode.LeftAlt))
+            //Debug.Log("x: " + (int)Input.mousePosition.x + " y: " + (int)Input.mousePosition.y);
+        //if (Input.GetKeyDown(KeyCode.Space))
+            //Debug.Log("x: " + transform.position.x + " y: " + transform.position.y);
     }
 
     void FollowMousePosition()
@@ -77,6 +74,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
     }
 }
