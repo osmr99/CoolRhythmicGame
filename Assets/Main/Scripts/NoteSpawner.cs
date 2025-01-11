@@ -20,9 +20,14 @@ public class NoteSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(note);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+            //Instantiate(note);
+        //}
+    }
+
+    public void SpawnNote()
+    {
+        Instantiate(note);
     }
 }

@@ -37,8 +37,10 @@ public class Note : MonoBehaviour
         myNote.transform.localScale = new Vector3(2, 2, 2);
 
         // Random location
-        randomX = Random.Range(-7f, 7f);
-        randomY = Random.Range(-4f, 4f);
+        //randomX = Random.Range(-7f, 7f); Originally
+        //randomY = Random.Range(-4f, 4f); Originally
+        randomX = Random.Range(-4f, 4f);
+        randomY = Random.Range(-2f, 2f);
         myNote.transform.position = new Vector2(randomX, randomY);
 
         // First appereance
@@ -58,7 +60,7 @@ public class Note : MonoBehaviour
 
         // Missed note
         hitBox.HitboxCollision(false);
-        myNote.DOColor(Color.red, 0.2f);
+        myNote.DOColor(Color.red, 0);
         myNote.DOFade(0, 0.2f);
         StartCoroutine(DestroyMe());
     }
@@ -67,7 +69,9 @@ public class Note : MonoBehaviour
     {
         StopAllCoroutines();
         hitBox.HitboxCollision(false);
-        myNote.DOColor(Color.green, 0.2f);
+        myNote.transform.DOScale(1.25f, 0);
+        myNote.transform.DOScale(1f, 0.2f);
+        myNote.DOColor(Color.green, 0);
         myNote.DOFade(0, 0.2f);
         StartCoroutine(DestroyMe());
     }
