@@ -122,16 +122,18 @@ public class BGM : MonoBehaviour
     {
         playerHealth.drain = false;
         yield return new WaitForSeconds(4);
-        playerHealth.ResetBars();
-        menu.ToggleMainMenu(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        //playerHealth.ResetBars();
+        //menu.ToggleMainMenu(true);
     }
 
     IEnumerator HardLevelEndDelay()
     {
         playerHealth.drain = false;
         yield return new WaitForSeconds(5.5f);
-        playerHealth.ResetBars();
-        menu.ToggleMainMenu(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        //playerHealth.ResetBars();
+        //menu.ToggleMainMenu(true);
     }
 
     void NoteSpawnTiming()
