@@ -163,7 +163,7 @@ public class KeyboardNote : MonoBehaviour
         {
             if (playerHealth.currentHPBar.fillAmount != playerHealth.maxHPBar.fillAmount)
             {
-                playerHealth.NoteHit(4);
+                playerHealth.NoteHit(2);
 
             }
 
