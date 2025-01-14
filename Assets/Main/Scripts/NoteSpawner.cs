@@ -28,17 +28,25 @@ public class NoteSpawner : MonoBehaviour
         //}
     }
 
-    public void SpawnNote()
+    public void SpawnNote(bool keyboardOnly)
     {
-        rng  = Random.Range(0, 101); //0, 101
-        if (rng > 50)
+        if(!keyboardOnly)
         {
-            Instantiate(mouseNote);
+            rng = Random.Range(0, 101); //0, 101
+            if (rng > 50)
+            {
+                Instantiate(mouseNote);
+            }
+            else
+            {
+                Instantiate(keyboardNote);
+            }
         }
         else
         {
             Instantiate(keyboardNote);
         }
+
 
     }
 }

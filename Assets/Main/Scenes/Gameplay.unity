@@ -832,12 +832,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutoLevel: {fileID: 11400000, guid: 658c094a540efe648b747f38d30a4cb3, type: 2}
-  hardLevel: {fileID: 0}
+  hardLevel: {fileID: 11400000, guid: f1936cbaba4d7d747a1b63fda3362b23, type: 2}
   currentLevel: {fileID: 11400000, guid: 09206952146b7094daed9b2743fc6973, type: 2}
   musList: {fileID: 11400000, guid: 7f188c5860e44f6478b21a344e837d1a, type: 2}
   music: {fileID: 1338090934}
   noteSpawner: {fileID: 958621993}
   delay: 2.5
+  readyToPlay: 0
 --- !u!4 &1338090933
 Transform:
   m_ObjectHideFlags: 0

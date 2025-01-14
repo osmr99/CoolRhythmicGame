@@ -17,19 +17,21 @@ public class BGM : MonoBehaviour
     [SerializeField] AudioSource music;
     [SerializeField] NoteSpawner noteSpawner;
     [SerializeField] float delay;
+    Player playerDot;
     MainMenu menu;
     public bool readyToPlay = false;
-    int selectedLevel = -1;
+    public int selectedLevel = -1;
 
     void OnAwake()
     {
-        SyncNoteSpawning(delay);
+        //SyncNoteSpawning(delay);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         menu = FindObjectOfType<MainMenu>();
+        playerDot = FindObjectOfType<Player>();
         foreach (AudioClip clip in musList.musicList)
         {
             music.clip = clip;
@@ -45,10 +47,10 @@ public class BGM : MonoBehaviour
         if(Keyboard.current.zKey.wasPressedThisFrame)
         {
             menu.ToggleMainMenu(false);
-            tutoLevel.time = 0;
-            tutoLevel.alternateTime = 0;
-            tutoLevel.lastPlayedIndex = -1;
-            music.clip = musList.musicList[0];
+            hardLevel.time = 0;
+            hardLevel.alternateTime = 0;
+            hardLevel.lastPlayedIndex = -1;
+            music.clip = musList.musicList[1];
             music.volume = 0.25f;
             music.Play();
         }
@@ -62,8 +64,8 @@ public class BGM : MonoBehaviour
         currentLevel.time = music.time;
         currentLevel.alternateTime = currentLevel.time - delay;
 
-        //tutoLevel.time = music.time;
-        //tutoLevel.alternateTime = tutoLevel.time - delay;
+        //hardLevel.time = music.time;
+        //hardLevel.alternateTime = tutoLevel.time - delay;
 
         if (music.time >= 67 && selectedLevel == 0)
         {
@@ -80,9 +82,9 @@ public class BGM : MonoBehaviour
             {
                 NoteSpawnTiming();
             }
-            else if(currentLevel.lastPlayedIndex != 999 && selectedLevel == 1) // WIP
+            else if(currentLevel.lastPlayedIndex != 388 && selectedLevel == 1) // End of the song
             {
-                NoteSpawnTiming();
+                KeyboardOnlyNoteSpawnTiming();
             }
             else
             {
@@ -98,6 +100,7 @@ public class BGM : MonoBehaviour
             }
             else if(selectedLevel == 1)
             {
+                playerDot.gameObject.SetActive(true);
                 selectedLevel = -1;
                 StartCoroutine(HardLevelEndDelay());
             }
@@ -107,9 +110,9 @@ public class BGM : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.D) ||Input.GetKeyDown(KeyCode.F)  || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K)) /*|| Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))*/ // Manual Beat set
         //{
-            //tutoLevel.nums[tutoLevel.lastPlayedIndex + 1] = tutoLevel.time;
-            //tutoLevel.alternateNums[tutoLevel.lastPlayedIndex + 1] = tutoLevel.alternateTime;
-            //tutoLevel.lastPlayedIndex++;
+            //hardLevel.nums[hardLevel.lastPlayedIndex + 1] = hardLevel.time;
+            //hardLevel.alternateNums[hardLevel.lastPlayedIndex + 1] = hardLevel.alternateTime;
+            //hardLevel.lastPlayedIndex++;
         //}
     }
 
@@ -121,7 +124,7 @@ public class BGM : MonoBehaviour
 
     IEnumerator HardLevelEndDelay()
     {
-        yield return new WaitForSeconds(0); // WIP
+        yield return new WaitForSeconds(5.5f);
         menu.ToggleMainMenu(true);
     }
 
@@ -133,11 +136,24 @@ public class BGM : MonoBehaviour
             if (currentLevel.time >= currentLevel.alternateNums[currentLevel.lastPlayedIndex + 1] && currentLevel.time < currentLevel.alternateNums[currentLevel.lastPlayedIndex + 2])
             {
                 Debug.Log("spawned note index: " + currentLevel.lastPlayedIndex);
-                noteSpawner.SpawnNote();
+                noteSpawner.SpawnNote(false);
                 currentLevel.lastPlayedIndex++;
             }
         }
+    }
 
+    void KeyboardOnlyNoteSpawnTiming()
+    {
+        //Debug.Log("waiting");
+        if (currentLevel.lastPlayedIndex < currentLevel.nums.Length)
+        {
+            if (currentLevel.time >= currentLevel.alternateNums[currentLevel.lastPlayedIndex + 1] && currentLevel.time < currentLevel.alternateNums[currentLevel.lastPlayedIndex + 2])
+            {
+                Debug.Log("spawned note index: " + currentLevel.lastPlayedIndex);
+                noteSpawner.SpawnNote(true);
+                currentLevel.lastPlayedIndex++;
+            }
+        }
     }
 
     void SyncNoteSpawning(float delay)
@@ -156,17 +172,20 @@ public class BGM : MonoBehaviour
         if (level == 0)
         {
             ScriptableObjectSelect(tutoLevel);
+            SyncNoteSpawning(delay);
         }
         else if (level == 1)
         {
+            playerDot.gameObject.SetActive(false);
             ScriptableObjectSelect(hardLevel);
+            SyncNoteSpawning(delay);
         }
         StartCoroutine(PlayLevel(level));
     }
 
     IEnumerator PlayLevel(int level)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         if (level == 0)
         {
             music.clip = musList.musicList[0];
@@ -187,6 +206,5 @@ public class BGM : MonoBehaviour
         currentLevel.alternateTime = 0;
         currentLevel.lastPlayedIndex = -1;
         currentLevel.nums = musicData.nums;
-        currentLevel.alternateNums = musicData.alternateNums;
     }
 }

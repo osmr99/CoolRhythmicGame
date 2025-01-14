@@ -15,11 +15,13 @@ public class KeyboardNote : MonoBehaviour
     float randomY;
     int rng = 0;
     bool canHit = false;
+    BGM bgm;
     void OnEnable()
     {
+        bgm = FindObjectOfType<BGM>();
         myNote = GetComponent<TMP_Text>();
         myNote.text = string.Empty;
-        DoKeyboardNote();
+        DoKeyboardNote(bgm.selectedLevel);
     }
 
     // Update is called once per frame
@@ -55,36 +57,53 @@ public class KeyboardNote : MonoBehaviour
                     SuccessNoteHit();
                 }
             }
+            else if (rng == 5)
+            {
+                if (Keyboard.current.enterKey.wasPressedThisFrame)
+                {
+                    SuccessNoteHit();
+                }
+            }
         }
     }
 
-    void DoKeyboardNote()
+    void DoKeyboardNote(int hardLevel)
     {
-        StartCoroutine(NoteAnim());
+        StartCoroutine(NoteAnim(hardLevel));
     }
 
-    IEnumerator NoteAnim()
+    IEnumerator NoteAnim(int hardLevel)
     {
-        // Chooses a random key
-        rng = Random.Range(1, 5);
-        switch (rng)
+        if(hardLevel < 1)
         {
-            case 1:
-                myNote.text = "W";
-                break;
-            case 2:
-                myNote.text = "A";
-                break;
-            case 3:
-                myNote.text = "S";
-                break;
-            case 4:
-                myNote.text = "D";
-                break;
+            // Chooses a random key
+            rng = Random.Range(1, 5);
+            switch (rng)
+            {
+                case 1:
+                    myNote.text = "W";
+                    break;
+                case 2:
+                    myNote.text = "A";
+                    break;
+                case 3:
+                    myNote.text = "S";
+                    break;
+                case 4:
+                    myNote.text = "D";
+                    break;
+            }
+        }
+        else
+        {
+            rng = 5; // Enter key only
+            myNote.text = "!";
         }
         // Random Location
         randomX = Random.Range(-7f, 7f);
         randomY = Random.Range(-4f, 4f);
+        //randomX = Random.Range(-4f, 4f); // Nerfed
+        //randomY = Random.Range(-2f, 2f); // Nerfed
         myNote.transform.position = new Vector2(randomX, randomY);
 
         // First appereance
