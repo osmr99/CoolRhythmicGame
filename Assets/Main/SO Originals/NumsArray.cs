@@ -5,6 +5,7 @@ using UnityEngine;
 public class NumsArray : ScriptableObject
 {
     public int startPos;
+    public float healthDrainAmount;
     public float time;
     public float alternateTime;
     public int lastPlayedIndex;

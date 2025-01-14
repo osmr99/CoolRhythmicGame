@@ -10,11 +10,13 @@ using UnityEngine.SceneManagement;
 public class NoteHit : MonoBehaviour
 {
     MouseNote theNote;
+    BGM bgm;
 
     // Start is called before the first frame update
     private void OnEnable()
     {
         theNote = GetComponentInParent<MouseNote>();
+        bgm = FindObjectOfType<BGM>();
     }
 
     public void HitboxCollision(bool enabled)
@@ -26,7 +28,7 @@ public class NoteHit : MonoBehaviour
     {
         if (collision.gameObject.name == "PlayerDot")
         {
-            theNote.SuccessNoteHit();
+            theNote.SuccessNoteHit(bgm.selectedLevel);
         }
     }
 }

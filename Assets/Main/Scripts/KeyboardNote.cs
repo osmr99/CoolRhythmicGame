@@ -16,9 +16,11 @@ public class KeyboardNote : MonoBehaviour
     int rng = 0;
     bool canHit = false;
     BGM bgm;
+    Health playerHealth;
     void OnEnable()
     {
         bgm = FindObjectOfType<BGM>();
+        playerHealth = FindObjectOfType<Health>();
         myNote = GetComponent<TMP_Text>();
         myNote.text = string.Empty;
         DoKeyboardNote(bgm.selectedLevel);
@@ -33,37 +35,42 @@ public class KeyboardNote : MonoBehaviour
             {
                 if(Keyboard.current.wKey.wasPressedThisFrame)
                 {
-                    SuccessNoteHit();
+                    SuccessNoteHit(bgm.selectedLevel);
                 }
             }
             else if (rng == 2)
             {
                 if (Keyboard.current.aKey.wasPressedThisFrame)
                 {
-                    SuccessNoteHit();
+                    SuccessNoteHit(bgm.selectedLevel);
                 }
             }
             else if (rng == 3)
             {
                 if (Keyboard.current.sKey.wasPressedThisFrame)
                 {
-                    SuccessNoteHit();
+                    SuccessNoteHit(bgm.selectedLevel);
                 }
             }
             else if (rng == 4)
             {
                 if (Keyboard.current.dKey.wasPressedThisFrame)
                 {
-                    SuccessNoteHit();
+                    SuccessNoteHit(bgm.selectedLevel);
                 }
             }
             else if (rng == 5)
             {
                 if (Keyboard.current.enterKey.wasPressedThisFrame)
                 {
-                    SuccessNoteHit();
+                    SuccessNoteHit(bgm.selectedLevel);
                 }
             }
+        }
+
+        if (playerHealth.currentHPBar.fillAmount == 0 || Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -101,7 +108,7 @@ public class KeyboardNote : MonoBehaviour
         }
         // Random Location
         randomX = Random.Range(-7f, 7f);
-        randomY = Random.Range(-4f, 4f);
+        randomY = Random.Range(-2.5f, 4f);
         //randomX = Random.Range(-4f, 4f); // Nerfed
         //randomY = Random.Range(-2f, 2f); // Nerfed
         myNote.transform.position = new Vector2(randomX, randomY);
@@ -122,15 +129,49 @@ public class KeyboardNote : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         // Missed note
+        if(hardLevel == 0)
+        {
+            playerHealth.NoteMiss(4);
+        }
+        else if(hardLevel == 1)
+        {
+            playerHealth.NoteMiss(1);
+        }
         canHit = false;
         myNote.DOColor(Color.red, 0);
         myNote.DOFade(0, 0.2f);
         StartCoroutine(DestroyMe());
     }
 
-    public void SuccessNoteHit()
+    public void SuccessNoteHit(int hardLevel)
     {
         StopAllCoroutines();
+        if (hardLevel == 0)
+        {
+            if (playerHealth.currentHPBar.fillAmount != playerHealth.maxHPBar.fillAmount)
+            {
+                playerHealth.NoteHit(8);
+                
+            }
+
+            if (playerHealth.currentHPBar.fillAmount >= playerHealth.maxHPBar.fillAmount)
+            {
+                playerHealth.timer = 0;
+            }
+        }
+        else if (hardLevel == 1)
+        {
+            if (playerHealth.currentHPBar.fillAmount != playerHealth.maxHPBar.fillAmount)
+            {
+                playerHealth.NoteHit(4);
+
+            }
+
+            if (playerHealth.currentHPBar.fillAmount >= playerHealth.maxHPBar.fillAmount)
+            {
+                playerHealth.timer = 0;
+            }
+        }
         canHit = false;
         myNote.transform.DOScale(0.35f, 0);
         myNote.transform.DOScale(0.25f, 0.2f);

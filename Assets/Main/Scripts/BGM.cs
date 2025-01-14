@@ -14,11 +14,12 @@ public class BGM : MonoBehaviour
     [SerializeField] NumsArray hardLevel;
     [SerializeField] NumsArray currentLevel;
     [SerializeField] MusicList musList;
-    [SerializeField] AudioSource music;
+    [SerializeField] public AudioSource music;
     [SerializeField] NoteSpawner noteSpawner;
     [SerializeField] float delay;
-    Player playerDot;
-    MainMenu menu;
+    Health playerHealth;
+    public Player playerDot;
+    public MainMenu menu;
     public bool readyToPlay = false;
     public int selectedLevel = -1;
 
@@ -32,6 +33,7 @@ public class BGM : MonoBehaviour
     {
         menu = FindObjectOfType<MainMenu>();
         playerDot = FindObjectOfType<Player>();
+        playerHealth = FindObjectOfType<Health>();
         foreach (AudioClip clip in musList.musicList)
         {
             music.clip = clip;
@@ -118,13 +120,17 @@ public class BGM : MonoBehaviour
 
     IEnumerator TutoLevelEndDelay()
     {
+        playerHealth.drain = false;
         yield return new WaitForSeconds(4);
+        playerHealth.ResetBars();
         menu.ToggleMainMenu(true);
     }
 
     IEnumerator HardLevelEndDelay()
     {
+        playerHealth.drain = false;
         yield return new WaitForSeconds(5.5f);
+        playerHealth.ResetBars();
         menu.ToggleMainMenu(true);
     }
 
@@ -191,12 +197,16 @@ public class BGM : MonoBehaviour
             music.clip = musList.musicList[0];
             music.volume = 0.25f;
             music.Play();
+            playerHealth.healthDrain = currentLevel.healthDrainAmount;
+            playerHealth.drain = true;
         }
         else if (level == 1)
         {
             music.clip = musList.musicList[1];
             music.volume = 0.25f;
             music.Play();
+            playerHealth.healthDrain = currentLevel.healthDrainAmount;
+            playerHealth.drain = true;
         }
     }
 
@@ -206,5 +216,6 @@ public class BGM : MonoBehaviour
         currentLevel.alternateTime = 0;
         currentLevel.lastPlayedIndex = -1;
         currentLevel.nums = musicData.nums;
+        currentLevel.healthDrainAmount = musicData.healthDrainAmount;
     }
 }

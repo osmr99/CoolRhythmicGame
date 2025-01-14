@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GoldenHaze
   m_EditorClassIdentifier: 
   startPos: 0
+  healthDrainAmount: 3.3
   time: 0
   alternateTime: -2.5
   lastPlayedIndex: 53

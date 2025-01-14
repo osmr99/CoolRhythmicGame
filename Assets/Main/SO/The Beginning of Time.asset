@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: The Beginning of Time
   m_EditorClassIdentifier: 
   startPos: 0
+  healthDrainAmount: 2.5
   time: 0
   alternateTime: -2.5
   lastPlayedIndex: 388

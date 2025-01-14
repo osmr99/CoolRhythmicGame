@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
         cam = Camera.main;
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFPS;
+        SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("Main Menu", LoadSceneMode.Additive);
+
     }
 
     void Update()

@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] Canvas canvas;
     BGM bgm;
+    [SerializeField] Slider musicSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,10 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && canvas.isActiveAndEnabled == true)
+        {
+            Application.Quit();
+        }
     }
 
     public void ToggleMainMenu(bool toggle)
@@ -40,5 +44,10 @@ public class MainMenu : MonoBehaviour
     {
         ToggleMainMenu(false);
         bgm.StartLevel(1);
+    }
+
+    public void SetMusicVolume()
+    {
+        bgm.music.volume = musicSlider.value;
     }
 }
