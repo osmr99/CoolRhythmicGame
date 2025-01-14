@@ -641,7 +641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9df2fc64d0530942b34f986d9a8198f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  note: {fileID: 6388179991039976291, guid: 5b8409c2b40de764b89e0f6ce8ad8071, type: 3}
+  mouseNote: {fileID: 6388179991039976291, guid: 5b8409c2b40de764b89e0f6ce8ad8071, type: 3}
+  keyboardNote: {fileID: 3809631909519886846, guid: b3c31a468e2c4e9408def9e06d10eb5f, type: 3}
 --- !u!1 &1285414068
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,10 +831,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf2769f5509d924ca618f91c4f729be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numsArray: {fileID: 11400000, guid: 658c094a540efe648b747f38d30a4cb3, type: 2}
+  tutoLevel: {fileID: 11400000, guid: 658c094a540efe648b747f38d30a4cb3, type: 2}
+  hardLevel: {fileID: 0}
+  currentLevel: {fileID: 11400000, guid: 09206952146b7094daed9b2743fc6973, type: 2}
   musList: {fileID: 11400000, guid: 7f188c5860e44f6478b21a344e837d1a, type: 2}
   music: {fileID: 1338090934}
   noteSpawner: {fileID: 958621993}
+  delay: 2.5
 --- !u!4 &1338090933
 Transform:
   m_ObjectHideFlags: 0

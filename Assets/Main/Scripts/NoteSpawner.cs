@@ -9,7 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class NoteSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject note;
+    [SerializeField] GameObject mouseNote;
+    [SerializeField] GameObject keyboardNote;
+    int rng = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,15 @@ public class NoteSpawner : MonoBehaviour
 
     public void SpawnNote()
     {
-        Instantiate(note);
+        rng  = Random.Range(0, 101); //0, 101
+        if (rng > 50)
+        {
+            Instantiate(mouseNote);
+        }
+        else
+        {
+            Instantiate(keyboardNote);
+        }
+
     }
 }

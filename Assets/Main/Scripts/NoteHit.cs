@@ -9,12 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class NoteHit : MonoBehaviour
 {
-    Note theNote;
+    MouseNote theNote;
 
     // Start is called before the first frame update
     private void OnEnable()
     {
-        theNote = GetComponentInParent<Note>();
+        theNote = GetComponentInParent<MouseNote>();
     }
 
     public void HitboxCollision(bool enabled)

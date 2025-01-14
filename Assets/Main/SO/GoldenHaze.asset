@@ -16,9 +16,9 @@ MonoBehaviour:
   playDelay: 0
   startPos: 0
   currentBeat: 0
-  time: 0
-  alternateTime: -2.5
-  lastPlayedIndex: -1
+  time: 31.253311
+  alternateTime: 28.753311
+  lastPlayedIndex: 26
   resetMarkers: 0
   nums:
   - 2.0693197
