@@ -42,8 +42,28 @@ public class BGM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Keyboard.current.zKey.wasPressedThisFrame)
+        {
+            menu.ToggleMainMenu(false);
+            tutoLevel.time = 0;
+            tutoLevel.alternateTime = 0;
+            tutoLevel.lastPlayedIndex = -1;
+            music.clip = musList.musicList[0];
+            music.volume = 0.25f;
+            music.Play();
+        }
+
+        if(Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            music.Stop();
+            menu.ToggleMainMenu(true);
+        }
+
         currentLevel.time = music.time;
         currentLevel.alternateTime = currentLevel.time - delay;
+
+        //tutoLevel.time = music.time;
+        //tutoLevel.alternateTime = tutoLevel.time - delay;
 
         if (music.time >= 67 && selectedLevel == 0)
         {
@@ -56,7 +76,7 @@ public class BGM : MonoBehaviour
 
         if(readyToPlay)
         {
-            if (currentLevel.lastPlayedIndex != 62 && selectedLevel == 0) // End of the song
+            if (currentLevel.lastPlayedIndex != 52 && selectedLevel == 0) // End of the song
             {
                 NoteSpawnTiming();
             }
@@ -64,12 +84,22 @@ public class BGM : MonoBehaviour
             {
                 NoteSpawnTiming();
             }
+            else
+            {
+                readyToPlay = false;
+            }
         }
         else
         {
-            if (selectedLevel != -1)
+            if (selectedLevel == 0)
             {
-                menu.ToggleMainMenu(true);
+                selectedLevel = -1;
+                StartCoroutine(TutoLevelEndDelay());
+            }
+            else if(selectedLevel == 1)
+            {
+                selectedLevel = -1;
+                StartCoroutine(HardLevelEndDelay());
             }
         }
 
@@ -77,21 +107,37 @@ public class BGM : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.D) ||Input.GetKeyDown(KeyCode.F)  || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K)) /*|| Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))*/ // Manual Beat set
         //{
-            //currentLevel.nums[currentLevel.lastPlayedIndex + 1] = currentLevel.time;
-            //currentLevel.alternateNums[currentLevel.lastPlayedIndex + 1] = currentLevel.alternateTime;
-            //currentLevel.lastPlayedIndex++;
+            //tutoLevel.nums[tutoLevel.lastPlayedIndex + 1] = tutoLevel.time;
+            //tutoLevel.alternateNums[tutoLevel.lastPlayedIndex + 1] = tutoLevel.alternateTime;
+            //tutoLevel.lastPlayedIndex++;
         //}
+    }
+
+    IEnumerator TutoLevelEndDelay()
+    {
+        yield return new WaitForSeconds(4);
+        menu.ToggleMainMenu(true);
+    }
+
+    IEnumerator HardLevelEndDelay()
+    {
+        yield return new WaitForSeconds(0); // WIP
+        menu.ToggleMainMenu(true);
     }
 
     void NoteSpawnTiming()
     {
         //Debug.Log("waiting");
-        if (currentLevel.time >= currentLevel.alternateNums[currentLevel.lastPlayedIndex + 1] && currentLevel.time < currentLevel.alternateNums[currentLevel.lastPlayedIndex + 2])
+        if(currentLevel.lastPlayedIndex < currentLevel.nums.Length)
         {
-            Debug.Log("spawned note index: " + currentLevel.lastPlayedIndex);
-            noteSpawner.SpawnNote();
-            currentLevel.lastPlayedIndex++;
+            if (currentLevel.time >= currentLevel.alternateNums[currentLevel.lastPlayedIndex + 1] && currentLevel.time < currentLevel.alternateNums[currentLevel.lastPlayedIndex + 2])
+            {
+                Debug.Log("spawned note index: " + currentLevel.lastPlayedIndex);
+                noteSpawner.SpawnNote();
+                currentLevel.lastPlayedIndex++;
+            }
         }
+
     }
 
     void SyncNoteSpawning(float delay)
